@@ -1,0 +1,23 @@
+.app-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.header-add-button {
+  background-color: #96a4b7;
+  margin-right: 10px;
+}
+
+.header-save-button {
+  background-color: #5ac597;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.header-buttons {
+  margin-left: auto;
+}

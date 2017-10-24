@@ -1,11 +1,33 @@
-export const getTasks = () => {
+import fetch from 'isomorphic-fetch'
+
+export const REQUEST_TASKS = 'REQUEST_TASKS'
+export const RECEIVE_TASKS = 'RECEIVE_TASKS'
+
+function requestTasks() {
   return {
-    type: 'GET_TASKS'
+    type: REQUEST_TASKS
   }
 }
 
-export const updateTasks = tasks => {
+function receiveTasks(json) {
   return {
-    type: 'UPDATE_TASKS'
+    type: RECEIVE_TASKS,
+    data: json
+  }
+}
+
+export function fetchTasks() {
+  return dispatch => {
+    dispatch(requestTasks())
+    return fetch('http://cfassignment.herokuapp.com/unzipark/tasks')
+      .then(
+        response => response.json(),
+        error => console.log('An error occured.', error)
+      )
+      .then(
+        json => {
+          return dispatch(receiveTasks(json))
+        }
+      )
   }
 }

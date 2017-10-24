@@ -1,18 +1,10 @@
+import 'babel-polyfill'
+
 import React from 'react'
 import { render } from 'react-dom'
-import { Provider } from 'react-redux'
-import { combineReducers, createStore } from 'redux'
-
-import tasks from './reducers/tasks'
-import App from './containers/App'
-
-let store = createStore(
-  combineReducers({ tasks })
-);
+import Root from './containers/Root'
 
 render(
-  <Provider store={ store }>
-    <App />
-  </Provider>,
+  <Root />,
   document.getElementById('root')
 )

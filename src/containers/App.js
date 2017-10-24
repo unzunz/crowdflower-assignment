@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import TasksList from '../components/TasksList'
-import { getTasks, updateTasks } from '../actions'
+import { fetchTasks, updateTasks } from '../actions'
+import './app.css';
 
 class App extends Component {
   constructor(props) {
@@ -11,20 +12,20 @@ class App extends Component {
     this.handleAdd = this.handleAdd.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
-    this.state = {
-      history: [
-        { tasks: [{
-            id: 1,
-            text: 'task 1'
-          }]
-        }
-      ]
-    }
   }
 
   componentDidMount() {
-    const { dispatch, getTasks } = this.props
-    // get tasks here
+    const { dispatch } = this.props
+    console.log(this.props)
+    dispatch(fetchTasks())
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextProps.foundError) {
+      nextProps.dispatch(fetchTasks())
+      return false;
+    }
+    return true;
   }
 
   handleAdd() {
@@ -40,39 +41,46 @@ class App extends Component {
   }
 
   render() {
-    const { history } = this.state
-    const current = history[history.length - 1].tasks
     return (
-      <div>
+      <div className='app-container'>
+        <div className='header'>
+          <h2 className='header-text'>Tasks</h2>
+          <div className='header-buttons'>
+            <button className='header-add-button'
+                    onClick={ this.handleAdd }>Add Task</button>
+            <button className='header-save-button'>Save</button>
+          </div>
+        </div>
         <TasksList
           onDelete={ this.handleDelete }
           onChange={ this.handleChange }
-          tasks={ current } />
+          tasks={ this.props.tasks } />
       </div>
     )
   }
 }
 
 App.propTypes = {
-  tasks: PropTypes.array,
-  onUpdateTasks: PropTypes.func.isRequired
+  foundError: PropTypes.bool.isRequired,
+  isFetching: PropTypes.bool.isRequired,
+  tasks: PropTypes.array.isRequired,
+  dispatch: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => {
+  const {
+    foundError,
+    isFetching,
+    items: tasks
+  } = state.tasks || {
+    foundError: false, isFetching: true, tasks: []
+  }
+
   return {
-    tasks: state.tasks
+    foundError,
+    isFetching,
+    tasks
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onUpdateTasks: tasks => {
-      dispatch(updateTasks(tasks))
-    }
-  }
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App)
+export default connect(mapStateToProps)(App)
