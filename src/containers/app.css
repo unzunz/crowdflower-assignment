@@ -1,11 +1,11 @@
 .app-container {
+  margin: 0 auto;
   max-width: 800px;
   padding: 20px;
-  margin: 0 auto;
 }
 
 .alert-notification-wrapper {
   position: fixed;
   bottom: 100px;
-  right: 100px;
+  right: 50px;
 }

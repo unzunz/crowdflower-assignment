@@ -49,6 +49,7 @@ class App extends Component {
     if (this.state.savedTasks) {
       this.setState({ showAlert: true, savedTasks: false })
     }
+
     return true;
   }
 
@@ -116,8 +117,10 @@ const mapStateToProps = state => {
   const {
     foundFetchError,
     foundPostError,
+    fetchAttempts,
     isModified,
-    items: tasks
+    postAttempts,
+    items: tasks,
   } = state.tasks || {
     foundFetchError: false,
     foundPostError: false,
@@ -126,9 +129,11 @@ const mapStateToProps = state => {
   }
 
   return {
+    fetchAttempts,
     foundFetchError,
     foundPostError,
     isModified,
+    postAttempts,
     tasks
   }
 }

@@ -7,8 +7,10 @@ import {
 
 function tasks(
   state = {
+    fetchAttempts: 0,
     foundFetchError: false,
     foundPostError: false,
+    postAttempts: 0,
     isModified: false,
     items: [],
   },
@@ -18,10 +20,12 @@ function tasks(
     case FETCH_TASKS_SUCCESS:
       if (action.data.error) {
         return Object.assign({}, state, {
+          fetchAttempts: state.fetchAttempts + 1,
           foundFetchError: true
         })
       }
       return Object.assign({}, state, {
+        fetchAttempts: 0,
         foundFetchError: false,
         isModified: false,
         items: action.data.tasks || []
@@ -29,12 +33,14 @@ function tasks(
     case POST_TASKS_SUCCESS:
       if (action.data.error) {
         return Object.assign({}, state, {
+          postAttempts: state.postAttempts + 1,
           foundPostError: true
         })
       }
       return Object.assign({}, state, {
         foundPostError: false,
         hasSaved: true,
+        postAttempts: 0,
         isModified: false,
         items: action.data.tasks || []
       })

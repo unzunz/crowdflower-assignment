@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import './AlertNotification.css';
 
 
-const AlertNotification = ({ text, isHidden = false, onClick }) => {
+const AlertNotification = ({ isHidden = false, text, onClick }) => {
   if (isHidden) {
     return null
   }
@@ -17,5 +17,10 @@ const AlertNotification = ({ text, isHidden = false, onClick }) => {
   )
 }
 
+AlertNotification.propTypes = {
+  isHidden: PropTypes.bool,
+  text: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired
+}
 
 export default AlertNotification
