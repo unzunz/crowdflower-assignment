@@ -24,8 +24,13 @@ header {
 button {
   border-radius: 5px;
   color: #fff;
+  cursor: pointer;
   font-size: 13px;
   line-height: 2;
   text-align: center;
   padding: 8px 16px;
+}
+
+button:disabled {
+  cursor: default;
 }
