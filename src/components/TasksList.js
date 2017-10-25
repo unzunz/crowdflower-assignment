@@ -5,12 +5,12 @@ import Task from './Task';
 
 const TasksList = ({ tasks, onChange, onDelete }) => (
   <div>
-    { tasks.map(task => (
+    { tasks.map((task, index) => (
       <Task
-        key={task.id}
-        text={task.text}
-        onChange={() => onChange(task.id)}
-        onDelete={() => onDelete(task.id)} />
+        key={ index }
+        text={ task.text }
+        onChange={ (event) => onChange(event, index) }
+        onDelete={ () => onDelete(index) } />
       )) }
   </div>
 )
@@ -18,7 +18,6 @@ const TasksList = ({ tasks, onChange, onDelete }) => (
 TasksList.propTypes = {
   tasks: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number.isRequired,
       text: PropTypes.string.isRequired
     }).isRequired
   ).isRequired,

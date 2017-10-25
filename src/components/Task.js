@@ -5,8 +5,13 @@ import './task.css';
 
 const Task = ({ text, onChange, onDelete }) => (
   <div className='task'>
-    <div className='task-text'>{ text }</div>
-    <i className="fa fa-trash-o task-delete-icon"></i>
+    <input
+      className='task-text'
+      onChange={ onChange }
+      value={ text }></input>
+    <i
+      className="fa fa-trash-o task-delete-icon"
+      onClick={ onDelete }></i>
   </div>
 )
 

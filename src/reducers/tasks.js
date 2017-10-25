@@ -1,35 +1,53 @@
 import { combineReducers } from 'redux'
 import {
+  HIDE_ALERT_MESSAGE,
   REQUEST_TASKS,
-  RECEIVE_TASKS
+  RECEIVE_TASKS,
+  SHOW_ALERT_MESSAGE,
+  UPDATE_TASKS
 } from '../actions'
 
 function tasks(
   state = {
-    foundError: false,
-    isFetching: false,
-    items: []
+    foundFetchError: false,
+    foundPostError: false,
+    isModified: false,
+    items: [],
+    showAlertMesage: false
   },
   action
 ){
   switch (action.type) {
     case REQUEST_TASKS:
-      return Object.assign({}, state, {
-        isFetching: true
-      })
+      break;
     case RECEIVE_TASKS:
       if (action.data.error) {
         return Object.assign({}, state, {
-          foundError: true,
-          isFetching: false
-        })
-      } else {
-        return Object.assign({}, state, {
-          foundError: false,
-          isFetching: false,
-          items: action.data.tasks || []
+          foundFetchError: true,
         })
       }
+      return Object.assign({}, state, {
+        foundFetchError: false,
+        isModified: false,
+        items: action.data.tasks || []
+      })
+
+    case SHOW_ALERT_MESSAGE:
+      return Object.assign({}, state, {
+        showAlertMessage: true
+      })
+    case HIDE_ALERT_MESSAGE: {
+      return Object.assign({}, state, {
+        showAlertMesage: false
+      })
+    }
+    case UPDATE_TASKS:
+      return Object.assign({}, state, {
+        isModified: true,
+        items: action.tasks,
+        showAlertMesage: false
+      })
+
     default:
       return state
   }
