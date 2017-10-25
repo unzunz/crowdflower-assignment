@@ -1,8 +1,10 @@
 import 'isomorphic-fetch'
 
+export const ADD_TASK = 'ADD_TASK'
+export const DELETE_TASK = 'DELETE_TASK'
 export const FETCH_TASKS_SUCCESS = 'FETCH_TASKS_SUCCESS'
 export const POST_TASKS_SUCCESS = 'POST_TASKS_SUCCESS'
-export const UPDATE_TASKS = 'UPDATE_TASKS'
+export const UPDATE_TASK = 'UPDATE_TASK'
 
 function fetchTasksSuccess(data) {
   return {
@@ -50,9 +52,24 @@ export function postTasks(tasks) {
   }
 }
 
-export function updateTasks(tasks) {
+export function updateTask(text, index) {
   return {
-    type: UPDATE_TASKS,
-    tasks: tasks
+    type: UPDATE_TASK,
+    index,
+    text
+  }
+}
+
+export function addTask(task) {
+  return {
+    type: ADD_TASK,
+    task
+  }
+}
+
+export function deleteTask(index) {
+  return {
+    type: DELETE_TASK,
+    index
   }
 }

@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import AlertNotification from '../components/AlertNotification'
 import TaskHeader from '../components/TaskHeader'
 import TasksList from '../components/TasksList'
-import { fetchTasks, postTasks, updateTasks } from '../actions'
+import { addTask, deleteTask, fetchTasks, postTasks, updateTask } from '../actions'
 import './app.css';
 
 export class App extends Component {
@@ -55,24 +55,18 @@ export class App extends Component {
 
   handleAdd() {
     const { dispatch } = this.props;
-    const tasks = this.props.tasks.slice();
-    tasks.unshift({ text: '' });
     this.setState({ addedTask: true })
-    dispatch(updateTasks(tasks));
+    dispatch(addTask({ text: '' }))
   }
 
   handleChange({ target }, index) {
     const { dispatch } = this.props;
-    const tasks = this.props.tasks.slice();
-    tasks[index].text = target.value;
-    dispatch(updateTasks(tasks));
+    dispatch(updateTask(target.value, index))
   }
 
   handleDelete(index) {
     const { dispatch } = this.props;
-    const tasks = this.props.tasks.slice();
-    tasks.splice(index, 1);
-    dispatch(updateTasks(tasks))
+    dispatch(deleteTask(index))
   }
 
   handleSave() {
@@ -122,7 +116,7 @@ const mapStateToProps = state => {
     isModified,
     postAttempts,
     items: tasks,
-  } = state.tasks || {
+  } = state || {
     foundFetchError: false,
     foundPostError: false,
     isModified: false,

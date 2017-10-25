@@ -3,23 +3,48 @@ import thunk from 'redux-thunk'
 import fetchMock from 'fetch-mock'
 
 import {
+  addTask,
+  deleteTask,
   fetchTasks,
   postTasks,
-  updateTasks,
+  updateTask,
+  ADD_TASK,
+  DELETE_TASK,
   FETCH_TASKS_SUCCESS,
   POST_TASKS_SUCCESS,
-  UPDATE_TASKS } from '../../actions'
+  UPDATE_TASK } from '../../actions'
 
 const middlewares = [thunk]
 const mockStore = configureMockStore(middlewares)
 
-it('creates an action to update tasks', () => {
-  const tasks = [{ text: 'sample text '}];
+
+it('creates an action to add a task', () => {
+  const task = { text: 'sample text '};
   const expectedAction = {
-    type: UPDATE_TASKS,
-    tasks
+    type: ADD_TASK,
+    task
   }
-  expect(updateTasks(tasks)).toEqual(expectedAction)
+  expect(addTask(task)).toEqual(expectedAction)
+})
+
+it('creates an action to delete a task', () => {
+  const index = 0;
+  const expectedAction = {
+    type: DELETE_TASK,
+    index
+  }
+  expect(deleteTask(index)).toEqual(expectedAction)
+})
+
+it('creates an action to update a task', () => {
+  const index = 0,
+        text = 'sample text ';
+  const expectedAction = {
+    type: UPDATE_TASK,
+    text,
+    index
+  }
+  expect(updateTask(text, index)).toEqual(expectedAction)
 })
 
 describe('async actions', () => {

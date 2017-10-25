@@ -1,11 +1,12 @@
-import { combineReducers } from 'redux'
 import {
+  ADD_TASK,
+  DELETE_TASK,
   FETCH_TASKS_SUCCESS,
   POST_TASKS_SUCCESS,
-  UPDATE_TASKS
+  UPDATE_TASK
 } from '../actions'
 
-function tasks(
+function tasksReducer(
   state = {
     fetchAttempts: 0,
     foundFetchError: false,
@@ -16,7 +17,29 @@ function tasks(
   },
   action
 ){
+  let tasks;
   switch (action.type) {
+    case ADD_TASK:
+      tasks = state.items.slice();
+      tasks.unshift(action.task)
+      return Object.assign({}, state, {
+        isModified: true,
+        items: tasks
+      })
+    case DELETE_TASK:
+      tasks = state.items.slice();
+      tasks.splice(state.index, 1);
+      return Object.assign({}, state, {
+        isModified: true,
+        items: tasks
+      })
+    case UPDATE_TASK:
+      tasks = state.items.slice();
+      tasks[action.index].text = action.text;
+      return Object.assign({}, state, {
+        isModified: true,
+        items: tasks
+      })
     case FETCH_TASKS_SUCCESS:
       if (action.data.error) {
         return Object.assign({}, state, {
@@ -44,18 +67,9 @@ function tasks(
         isModified: false,
         items: action.data.tasks || []
       })
-    case UPDATE_TASKS:
-      return Object.assign({}, state, {
-        isModified: true,
-        items: action.tasks,
-      })
     default:
       return state
   }
 }
 
-const rootReducer = combineReducers({
-  tasks
-})
-
-export default rootReducer
+export default tasksReducer
