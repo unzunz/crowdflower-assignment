@@ -1,34 +1,37 @@
 import fetch from 'isomorphic-fetch'
 
-export const REQUEST_TASKS = 'REQUEST_TASKS'
-export const REQUEST_TASKS_FAILURE = 'REQUEST_TASKS_FAILURE'
-export const RECEIVE_TASKS = 'RECEIVE_TASKS'
-export const HIDE_ALERT_MESSAGE = 'HIDE_ALERT_MESSAGE'
-export const SHOW_ALERT_MESSAGE = 'SHOW_ALERT_MESSAGE'
+export const FETCH_TASKS_SUCCESS = 'FETCH_TASKS_SUCCESS'
+export const POST_TASKS_SUCCESS = 'POST_TASKS_SUCCESS'
 export const UPDATE_TASKS = 'UPDATE_TASKS'
 
-function receiveTasks(json) {
+function fetchTasksSuccess(data) {
   return {
-    type: RECEIVE_TASKS,
-    data: json
+    type: FETCH_TASKS_SUCCESS,
+    data
   }
 }
 
-function showAlertMessage() {
-  return {
-    type: SHOW_ALERT_MESSAGE,
-  }
+export function fetchTasks() {
+  return dispatch => {
+    return fetch('http://cfassignment.herokuapp.com/unzipark/tasks')
+      .then(
+        response => response.json(),
+        error => console.log('An error occured.', error)
+      )
+      .then(json =>
+        dispatch(fetchTasksSuccess(json))
+      )
+    }
 }
 
-export function updateTasks(tasks) {
+function postTasksSuccess(data) {
   return {
-    type: UPDATE_TASKS,
-    tasks: tasks
+    type: POST_TASKS_SUCCESS,
+    data
   }
 }
 
 export function postTasks(tasks) {
-  console.log(tasks)
   return dispatch => {
     return fetch('http://cfassignment.herokuapp.com/unzipark/tasks', {
       method: 'post',
@@ -37,29 +40,19 @@ export function postTasks(tasks) {
       }),
       body: JSON.stringify({ tasks })
     })
-      .then(
-        response => response.json(),
-        error => console.log('An error occured.', error)
-      )
-      .then(
-        json => {
-          console.log(json)
-          return dispatch(receiveTasks(json))
-        }
-      )
+    .then(
+      response => response.json(),
+      error => console.log('An error occured.', error)
+    )
+    .then(json =>
+      dispatch(postTasksSuccess(json))
+    )
   }
 }
 
-export function fetchTasks() {
-  return dispatch => {
-    // dispatch(requestTasks())
-    return fetch('http://cfassignment.herokuapp.com/unzipark/tasks')
-      .then(
-        response => response.json(),
-        error => console.log('An error occured.', error)
-      )
-      .then(
-        json => dispatch(receiveTasks(json))
-      )
+export function updateTasks(tasks) {
+  return {
+    type: UPDATE_TASKS,
+    tasks: tasks
   }
 }

@@ -10,6 +10,15 @@
   padding: 10px;
 }
 
+.task-input {
+  color: #96a4b7;
+  flex-grow: 1;
+  font-size: 16px;
+  font-family: 'Lato';
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
 .task-delete-icon {
   cursor: pointer;
   margin-left: auto;

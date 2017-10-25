@@ -1,0 +1,16 @@
+.alert-message {
+  align-items: center;
+  background-color: #F6FFFB;
+  border: 1px #5ac597 solid;
+  border-radius: 5px;
+  color: #5ac597;
+  display: flex;
+  font-size: 14px;
+  min-width: 400px;
+  padding: 8px 16px;
+}
+
+.alert-x-icon {
+  cursor: pointer;
+  margin-left: auto;
+}

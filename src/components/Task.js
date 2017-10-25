@@ -6,7 +6,7 @@ import './task.css';
 const Task = ({ text, onChange, onDelete }) => (
   <div className='task'>
     <input
-      className='task-text'
+      className='task-input'
       onChange={ onChange }
       value={ text }></input>
     <i

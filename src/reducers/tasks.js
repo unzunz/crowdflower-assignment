@@ -1,9 +1,7 @@
 import { combineReducers } from 'redux'
 import {
-  HIDE_ALERT_MESSAGE,
-  REQUEST_TASKS,
-  RECEIVE_TASKS,
-  SHOW_ALERT_MESSAGE,
+  FETCH_TASKS_SUCCESS,
+  POST_TASKS_SUCCESS,
   UPDATE_TASKS
 } from '../actions'
 
@@ -13,17 +11,14 @@ function tasks(
     foundPostError: false,
     isModified: false,
     items: [],
-    showAlertMesage: false
   },
   action
 ){
   switch (action.type) {
-    case REQUEST_TASKS:
-      break;
-    case RECEIVE_TASKS:
+    case FETCH_TASKS_SUCCESS:
       if (action.data.error) {
         return Object.assign({}, state, {
-          foundFetchError: true,
+          foundFetchError: true
         })
       }
       return Object.assign({}, state, {
@@ -31,23 +26,23 @@ function tasks(
         isModified: false,
         items: action.data.tasks || []
       })
-
-    case SHOW_ALERT_MESSAGE:
+    case POST_TASKS_SUCCESS:
+      if (action.data.error) {
+        return Object.assign({}, state, {
+          foundPostError: true
+        })
+      }
       return Object.assign({}, state, {
-        showAlertMessage: true
+        foundPostError: false,
+        hasSaved: true,
+        isModified: false,
+        items: action.data.tasks || []
       })
-    case HIDE_ALERT_MESSAGE: {
-      return Object.assign({}, state, {
-        showAlertMesage: false
-      })
-    }
     case UPDATE_TASKS:
       return Object.assign({}, state, {
         isModified: true,
         items: action.tasks,
-        showAlertMesage: false
       })
-
     default:
       return state
   }
