@@ -8,7 +8,7 @@ import TasksList from '../components/TasksList'
 import { fetchTasks, postTasks, updateTasks } from '../actions'
 import './app.css';
 
-class App extends Component {
+export class App extends Component {
   constructor(props) {
     super(props)
     this.handleAdd = this.handleAdd.bind(this)
@@ -108,6 +108,7 @@ class App extends Component {
 
 App.propTypes = {
   foundFetchError: PropTypes.bool.isRequired,
+  foundPostError: PropTypes.bool.isRequired,
   isModified: PropTypes.bool.isRequired,
   tasks: PropTypes.array.isRequired,
   dispatch: PropTypes.func.isRequired

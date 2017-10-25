@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-fetch'
+import 'isomorphic-fetch'
 
 export const FETCH_TASKS_SUCCESS = 'FETCH_TASKS_SUCCESS'
 export const POST_TASKS_SUCCESS = 'POST_TASKS_SUCCESS'
