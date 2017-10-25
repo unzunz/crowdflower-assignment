@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
-import Task from './Task';
+import Task from './Task'
 
 const TasksList = ({ tasks, onChange, onDelete, firstRef }) => {
   const visibleTasks = tasks.slice();

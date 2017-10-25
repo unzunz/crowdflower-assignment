@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import TasksList from '../components/TasksList'
 import AlertNotification from '../components/AlertNotification'
+import TaskHeader from '../components/TaskHeader'
+import TasksList from '../components/TasksList'
 import { fetchTasks, postTasks, updateTasks } from '../actions'
 import './app.css';
 
@@ -13,7 +14,7 @@ class App extends Component {
     this.handleAdd = this.handleAdd.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
-    this.saveTasks = this.saveTasks.bind(this)
+    this.handleSave = this.handleSave.bind(this)
     this.state = {
       addedTask: false,
       savedTasks: false,
@@ -73,7 +74,7 @@ class App extends Component {
     dispatch(updateTasks(tasks))
   }
 
-  saveTasks() {
+  handleSave() {
     const { dispatch, tasks } = this.props
     this.setState({ savedTasks: true })
     dispatch(postTasks(tasks))
@@ -83,16 +84,10 @@ class App extends Component {
     return (
       <div>
         <div className='app-container'>
-          <div className='header'>
-            <h2 className='header-text'>Tasks</h2>
-            <div className='header-buttons'>
-              <button className='header-add-button'
-                      onClick={ this.handleAdd }>Add Task</button>
-              <button className='header-save-button'
-                      disabled={ !this.props.isModified }
-                      onClick={ this.saveTasks }>Save</button>
-            </div>
-          </div>
+          <TaskHeader onAdd={ this.handleAdd }
+                  onSave={ this.handleSave }
+                  text='Task'
+                  isSaveDisabled={ !this.props.isModified } />
           <TasksList
             firstRef={ elem => this.firstTask = elem }
             onDelete={ this.handleDelete }
@@ -105,7 +100,6 @@ class App extends Component {
             onClick={ () => this.setState({ showAlert: false }) }
             text='Tasks saved successfully' />
         </div>
-
       </div>
     )
   }

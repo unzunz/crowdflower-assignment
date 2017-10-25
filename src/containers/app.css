@@ -1,25 +1,7 @@
 .app-container {
   max-width: 800px;
+  padding: 20px;
   margin: 0 auto;
-}
-
-.header-add-button {
-  background-color: #96a4b7;
-  margin-right: 10px;
-}
-
-.header-save-button {
-  background-color: #5ac597;
-}
-
-.header {
-  display: flex;
-  align-items: center;
-  margin: 20px 0;
-}
-
-.header-buttons {
-  margin-left: auto;
 }
 
 .alert-notification-wrapper {

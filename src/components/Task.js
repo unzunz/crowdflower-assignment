@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
-import './task.css';
+import './task.css'
 
 const Task = ({ text, onChange, onDelete, inputRef }) => (
   <div className='task'>
