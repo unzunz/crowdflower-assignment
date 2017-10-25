@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme'
-import { App } from '../containers/App'
+import { App } from '../../containers/App'
 
 function setup() {
   const props = {
