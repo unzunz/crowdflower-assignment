@@ -3,17 +3,29 @@ import PropTypes from 'prop-types';
 
 import Task from './Task';
 
-const TasksList = ({ tasks, onChange, onDelete }) => (
-  <div>
-    { tasks.map((task, index) => (
-      <Task
-        key={ index }
-        text={ task.text }
-        onChange={ (event) => onChange(event, index) }
-        onDelete={ () => onDelete(index) } />
-      )) }
-  </div>
-)
+const TasksList = ({ tasks, onChange, onDelete, firstRef }) => {
+  const visibleTasks = tasks.slice();
+  let firstTask = visibleTasks.shift();
+  return (
+    <div>
+      { firstTask ?
+          <Task
+            key={ 0 }
+            inputRef={ firstRef }
+            text={ firstTask.text }
+            onChange={ (event) => onChange(event, 0) }
+            onDelete={ () => onDelete(0) } />
+        : null }
+     { visibleTasks.map((task, index) => (
+       <Task
+         key={ index }
+         text={ task.text }
+         onChange={ (event) => onChange(event, index) }
+         onDelete={ () => onDelete(index) } />)) }
+    </div>
+
+  )
+}
 
 TasksList.propTypes = {
   tasks: PropTypes.arrayOf(

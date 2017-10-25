@@ -15,6 +15,7 @@ class App extends Component {
     this.handleDelete = this.handleDelete.bind(this)
     this.saveTasks = this.saveTasks.bind(this)
     this.state = {
+      addedTask: false,
       savedTasks: false,
       showAlert: false
     }
@@ -22,8 +23,15 @@ class App extends Component {
 
   componentDidMount() {
     const { dispatch } = this.props
-    console.log(this.props)
     dispatch(fetchTasks())
+  }
+
+  componentDidUpdate() {
+    if (this.state.addedTask && this.firstTask) {
+      this.setState({ addedTask: false }, () => {
+        this.firstTask.focus()
+      })
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -47,6 +55,7 @@ class App extends Component {
     const { dispatch } = this.props;
     const tasks = this.props.tasks.slice();
     tasks.unshift({ text: '' });
+    this.setState({ addedTask: true })
     dispatch(updateTasks(tasks));
   }
 
@@ -85,6 +94,7 @@ class App extends Component {
             </div>
           </div>
           <TasksList
+            firstRef={ elem => this.firstTask = elem }
             onDelete={ this.handleDelete }
             onChange={ this.handleChange }
             tasks={ this.props.tasks } />
