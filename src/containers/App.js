@@ -23,8 +23,7 @@ export class App extends Component {
   }
 
   componentDidMount() {
-    const { dispatch } = this.props
-    dispatch(fetchTasks())
+    this.props.handleFetchTasks();
   }
 
   componentDidUpdate() {
@@ -37,12 +36,12 @@ export class App extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     if (nextProps.foundFetchError) {
-      nextProps.dispatch(fetchTasks())
+      nextProps.handleFetchTasks()
       return false
     }
 
     if (nextProps.foundPostError) {
-      nextProps.dispatch(postTasks(nextProps.tasks))
+      nextProps.handlePostTasks(nextProps.tasks)
       return false
     }
 
@@ -54,25 +53,23 @@ export class App extends Component {
   }
 
   handleAdd() {
-    const { dispatch } = this.props;
     this.setState({ addedTask: true })
-    dispatch(addTask({ text: '' }))
+    this.props.handleAddTask({ text: '' })
   }
 
   handleChange({ target }, index) {
-    const { dispatch } = this.props;
-    dispatch(updateTask(target.value, index))
+    this.props.handleUpdateTask(target.value, index)
   }
 
   handleDelete(index) {
-    const { dispatch } = this.props;
-    dispatch(deleteTask(index))
+    console.log(index)
+    this.props.handleDeleteTask(index)
   }
 
   handleSave() {
-    const { dispatch, tasks } = this.props
+    const { handlePostTasks, tasks } = this.props
     this.setState({ savedTasks: true })
-    dispatch(postTasks(tasks))
+    handlePostTasks(tasks)
   }
 
   render() {
@@ -100,12 +97,18 @@ export class App extends Component {
   }
 }
 
+// TODO(unzi): Refactor `App` component - maybe to just handle fetching and posting tasks.
+// Move rest of functionality (e.g. updating and adding) to `TaskList`
 App.propTypes = {
   foundFetchError: PropTypes.bool.isRequired,
   foundPostError: PropTypes.bool.isRequired,
+  handleAddTask: PropTypes.func.isRequired,
+  handleFetchTasks: PropTypes.func.isRequired,
+  handleDeleteTask: PropTypes.func.isRequired,
+  handlePostTasks: PropTypes.func.isRequired,
+  handleUpdateTask: PropTypes.func.isRequired,
   isModified: PropTypes.bool.isRequired,
   tasks: PropTypes.array.isRequired,
-  dispatch: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => {
@@ -119,7 +122,9 @@ const mapStateToProps = state => {
   } = state || {
     foundFetchError: false,
     foundPostError: false,
+    fetchAttempts: 0,
     isModified: false,
+    postAttempts: 0,
     tasks: []
   }
 
@@ -133,4 +138,14 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(App)
+const mapDispatchToProps = dispatch => {
+  return {
+    handleAddTask: task => dispatch(addTask(task)),
+    handleFetchTasks: () => dispatch(fetchTasks()),
+    handleDeleteTask: index => dispatch(deleteTask(index)),
+    handlePostTasks: tasks => dispatch(postTasks(tasks)),
+    handleUpdateTask: (text, index) => dispatch(updateTask(text, index)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)

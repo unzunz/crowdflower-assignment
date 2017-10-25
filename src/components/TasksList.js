@@ -18,10 +18,10 @@ const TasksList = ({ tasks, onChange, onDelete, firstRef }) => {
         : null }
      { visibleTasks.map((task, index) => (
        <Task
-         key={ index }
+         key={ index + 1 }
          text={ task.text }
-         onChange={ (event) => onChange(event, index) }
-         onDelete={ () => onDelete(index) } />)) }
+         onChange={ (event) => onChange(event, index + 1) }
+         onDelete={ () => onDelete(index + 1) } />)) }
     </div>
 
   )

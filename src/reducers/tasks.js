@@ -28,7 +28,7 @@ function tasksReducer(
       })
     case DELETE_TASK:
       tasks = state.items.slice();
-      tasks.splice(state.index, 1);
+      tasks.splice(action.index, 1);
       return Object.assign({}, state, {
         isModified: true,
         items: tasks
